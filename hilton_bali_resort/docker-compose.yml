@@ -9,7 +9,7 @@ services:
     restart: always
 
   mysql:
-    container_name: nameko-example-mysql
+    container_name: nameko-example-mysql-hilton
     image: mysql:5.7
     ports:
       - "3312:3306" # Exposing MySQL on different port for convenience
