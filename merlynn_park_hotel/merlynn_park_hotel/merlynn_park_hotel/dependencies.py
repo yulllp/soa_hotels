@@ -1,11 +1,11 @@
 from datetime import date, datetime
 from decimal import Decimal
 from nameko.extensions import DependencyProvider
-import boto3
-from botocore.exceptions import NoCredentialsError
-from botocore.exceptions import PartialCredentialsError
-from botocore.exceptions import EndpointConnectionError
-from botocore.exceptions import ClientError
+# import boto3
+# from botocore.exceptions import NoCredentialsError
+# from botocore.exceptions import PartialCredentialsError
+# from botocore.exceptions import EndpointConnectionError
+# from botocore.exceptions import ClientError
 
 import mysql.connector
 from mysql.connector import Error
