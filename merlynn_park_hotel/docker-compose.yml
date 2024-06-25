@@ -14,7 +14,7 @@ services:
     ports:
       - "3307:3306" # Exposing MySQL on different port for convenience
     environment:
-      MYSQL_DATABASE: "soa_utama"
+      MYSQL_DATABASE: "merlynn_park_hotel"
       MYSQL_ROOT_PASSWORD: "password"
     volumes:
      - ./mysql-init:/docker-entrypoint-initdb.d
