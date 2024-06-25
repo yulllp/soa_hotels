@@ -48,7 +48,7 @@ CREATE TABLE `hotel` (
 --
 
 INSERT INTO `hotel` (`id`, `name`, `image`, `description`, `star`, `address`, `facilities`, `country`, `province`, `city`, `post_code`, `created_at`, `updated_at`) VALUES
-(6, 'Artotel Suites Bianti', 'https://', 'The 5-star ARTOTEL Suites Bianti Yogyakarta, CHSE Certified offers luxurious air-conditioned rooms in the center of Yogyakarta, just a 2-minute walk from the main world street. The accommodation features an outdoor swimming pool, fitness center and pampering spa services', 5, 'Jl. Urip Sumoharjo No.37, Klitren, Kec. Gondokusuman, Kota Yogyakarta, Gondokusuman, Yogyakarta, Yogyakarta Province, Indonesia, 55222', 'AC, Restaurant, Swimming Pool', 'Indonesia', 'DI Yogyakarta', 'Yogyakarta', '55222', '2024-06-25 15:33:30', '2024-06-25 15:33:30');
+(6, 'Artotel Suites Bianti', 'https://hotel-images-soa.s3.amazonaws.com/artotel/Artotel.jpeg', 'The 5-star ARTOTEL Suites Bianti Yogyakarta, CHSE Certified offers luxurious air-conditioned rooms in the center of Yogyakarta, just a 2-minute walk from the main world street. The accommodation features an outdoor swimming pool, fitness center and pampering spa services', 5, 'Jl. Urip Sumoharjo No.37, Klitren, Kec. Gondokusuman, Kota Yogyakarta, Gondokusuman, Yogyakarta, Yogyakarta Province, Indonesia, 55222', 'AC, Restaurant, Swimming Pool', 'Indonesia', 'DI Yogyakarta', 'Yogyakarta', '55222', '2024-06-25 15:33:30', '2024-06-25 15:33:30');
 
 -- --------------------------------------------------------
 
@@ -191,9 +191,9 @@ CREATE TABLE `room_type` (
 --
 
 INSERT INTO `room_type` (`id`, `hotel_id`, `type`, `image`, `detail`, `facilities`, `total_room`, `capacity`, `price`, `created_at`, `updated_at`) VALUES
-(1, 6, 'Presiden Suite', 'https://', 'The Luxurious hotel accomodation at ARTOTEL Suites Bianti, Yogyakarta is complete with city views, exquisite furnishings, and every five-star amenity required for a relaxing business or leisure stay. Featuring our only President Suite.', 'Bathub, Free Mini Bar, Free Fruit Basket, Spacious Living room', 5, 3, 8553719.00, '2024-06-25 15:36:28', '2024-06-25 15:36:28'),
-(2, 4, 'Artsy Suite', 'https://', 'The Luxurious hotel accomodation at ARTOTEL Suites Bianti, Yogyakarta is complete with city views, exquisite furnishings, and every five-star amenity required for a relaxing business or leisure stay. Featuring our 3 Deluxe ARTSY Suites rooms.', 'King Bed, Coffee Machine', 10, 2, 3512397.00, '2024-06-25 15:39:28', '2024-06-25 15:39:28'),
-(3, 4, 'Deluxe Artsy Suite', 'https://', 'The Luxurious hotel accomodation at ARTOTEL Suites Bianti, – Yogyakarta is complete with city views, exquisite furnishings, and every five-star amenity required for a relaxing business or leisure stay. Featuring our 3 Deluxe ARTSY Suites rooms.', 'King Bed, Bathup, Coffee Machine, Mini Bar', 8, 2, 4127343.00, '2024-06-25 15:41:28', '2024-06-25 15:41:28');
+(1, 6, 'Presiden Suite', 'https://hotel-images-soa.s3.amazonaws.com/artotel/president-suites.jpg', 'The Luxurious hotel accomodation at ARTOTEL Suites Bianti, Yogyakarta is complete with city views, exquisite furnishings, and every five-star amenity required for a relaxing business or leisure stay. Featuring our only President Suite.', 'Bathub, Free Mini Bar, Free Fruit Basket, Spacious Living room', 5, 3, 8553719.00, '2024-06-25 15:36:28', '2024-06-25 15:36:28'),
+(2, 4, 'Artsy Suite', 'https://hotel-images-soa.s3.amazonaws.com/artotel/artsy-suites.jpg', 'The Luxurious hotel accomodation at ARTOTEL Suites Bianti, Yogyakarta is complete with city views, exquisite furnishings, and every five-star amenity required for a relaxing business or leisure stay. Featuring our 3 Deluxe ARTSY Suites rooms.', 'King Bed, Coffee Machine', 10, 2, 3512397.00, '2024-06-25 15:39:28', '2024-06-25 15:39:28'),
+(3, 4, 'Deluxe Artsy Suite', 'https://hotel-images-soa.s3.amazonaws.com/artotel/deluxe-artsy.jpg', 'The Luxurious hotel accomodation at ARTOTEL Suites Bianti, – Yogyakarta is complete with city views, exquisite furnishings, and every five-star amenity required for a relaxing business or leisure stay. Featuring our 3 Deluxe ARTSY Suites rooms.', 'King Bed, Bathup, Coffee Machine, Mini Bar', 8, 2, 4127343.00, '2024-06-25 15:41:28', '2024-06-25 15:41:28');
 
 -- --------------------------------------------------------
 
