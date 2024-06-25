@@ -1,5 +1,5 @@
 from nameko.rpc import rpc
-from jayakarta_sp_hotel import dependencies
+from yogyakarta_mariott import dependencies
 
 
 class HotelService:
