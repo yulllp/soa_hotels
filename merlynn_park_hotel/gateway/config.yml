@@ -1,0 +1,6 @@
+AMQP_URI: amqp://${RABBIT_USER:guest}:${RABBIT_PASSWORD:guest}@${RABBIT_HOST:localhost}:${RABBIT_PORT:5672}/
+
+MYSQL_URI: mysql://user:${MYSQL_PASSWORD:""}@${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:merlynn_park_hotel}
+
+# rpc:
+#   user_service: { AMQP_URI: 'amqp://guest:guest@rabbitmq:5672/' }
