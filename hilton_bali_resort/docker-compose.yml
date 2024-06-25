@@ -43,7 +43,7 @@ services:
 
   gateway:
     build: ./gateway
-    container_name: gateway5
+    container_name: gateway6
     depends_on:
       - rabbit
     ports:
