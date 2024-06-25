@@ -193,7 +193,7 @@ CREATE TABLE `room_type` (
 INSERT INTO `room_type` (`id`, `hotel_id`, `type`, `image`, `detail`, `facilities`, `total_room`, `capacity`, `price`, `created_at`, `updated_at`) VALUES
 (1, 6, 'Presiden Suite', 'https://hotel-images-soa.s3.amazonaws.com/artotel/president-suites.jpg', 'The Luxurious hotel accomodation at ARTOTEL Suites Bianti, Yogyakarta is complete with city views, exquisite furnishings, and every five-star amenity required for a relaxing business or leisure stay. Featuring our only President Suite.', 'Bathub, Free Mini Bar, Free Fruit Basket, Spacious Living room', 5, 3, 8553719.00, '2024-06-25 15:36:28', '2024-06-25 15:36:28'),
 (2, 6, 'Artsy Suite', 'https://hotel-images-soa.s3.amazonaws.com/artotel/artsy-suites.jpg', 'The Luxurious hotel accomodation at ARTOTEL Suites Bianti, Yogyakarta is complete with city views, exquisite furnishings, and every five-star amenity required for a relaxing business or leisure stay. Featuring our 3 Deluxe ARTSY Suites rooms.', 'King Bed, Coffee Machine', 10, 2, 3512397.00, '2024-06-25 15:39:28', '2024-06-25 15:39:28'),
-(3, 6, 'Deluxe Artsy Suite', 'https://hotel-images-soa.s3.amazonaws.com/artotel/deluxe-artsy.jpg', 'The Luxurious hotel accomodation at ARTOTEL Suites Bianti, – Yogyakarta is complete with city views, exquisite furnishings, and every five-star amenity required for a relaxing business or leisure stay. Featuring our 3 Deluxe ARTSY Suites rooms.', 'King Bed, Bathup, Coffee Machine, Mini Bar', 8, 2, 4127343.00, '2024-06-25 15:41:28', '2024-06-25 15:41:28');
+(3, 6, 'Deluxe Artsy Suite', 'https://hotel-images-soa.s3.amazonaws.com/artotel/deluxe-artsy.jpg', 'The Luxurious hotel accomodation at ARTOTEL Suites Bianti, Yogyakarta is complete with city views, exquisite furnishings, and every five-star amenity required for a relaxing business or leisure stay. Featuring our 3 Deluxe ARTSY Suites rooms.', 'King Bed, Bathup, Coffee Machine, Mini Bar', 8, 2, 4127343.00, '2024-06-25 15:41:28', '2024-06-25 15:41:28');
 
 -- --------------------------------------------------------
 
@@ -221,8 +221,6 @@ ALTER TABLE `hotel`
 --
 -- Indexes for table `migrations`
 --
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
 
 
 --
