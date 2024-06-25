@@ -48,7 +48,7 @@ CREATE TABLE `hotel` (
 --
 
 INSERT INTO `hotel` (`id`, `name`, `image`, `description`, `star`, `address`, `facilities`, `country`, `province`, `city`, `post_code`, `created_at`, `updated_at`) VALUES
-(1, 'Merlynn Park Hotel', 'https://hotel-images-soa.s3.amazonaws.com/merlynn_park_hotel.jpg', 'Not only located within easy reach of various places of interests for your adventure, but staying at Merlynn Park Hotel will also give you a pleasant stay.', 5, 'Jl. K.H.Hasyim Ashari 29-31, Gambir, Petojo Utara, Jakarta, Indonesia, 10130', 'AC, Restaurant, Swimming Pool, 24-Hour Front Desk, Parking, Elevator, WiFi', 'Indonesia', 'DKI Jakarta', 'Jakarta', '10130', '2024-06-12 02:14:30', '2024-06-12 02:14:30');
+(1, 'Merlynn Park Hotel', 'https://hotel-images-soa.s3.amazonaws.com/merlyn/merlynn_park_hotel.jpg', 'Not only located within easy reach of various places of interests for your adventure, but staying at Merlynn Park Hotel will also give you a pleasant stay.', 5, 'Jl. K.H.Hasyim Ashari 29-31, Gambir, Petojo Utara, Jakarta, Indonesia, 10130', 'AC, Restaurant, Swimming Pool, 24-Hour Front Desk, Parking, Elevator, WiFi', 'Indonesia', 'DKI Jakarta', 'Jakarta', '10130', '2024-06-12 02:14:30', '2024-06-12 02:14:30');
 
 -- --------------------------------------------------------
 
@@ -162,9 +162,9 @@ CREATE TABLE `room_type` (
 --
 
 INSERT INTO `room_type` (`id`, `hotel_id`, `type`, `image`, `detail`, `facilities`, `total_room`, `capacity`, `price`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Executive King', 'https://hotel-images-soa.s3.amazonaws.com/exec_king.jpeg', 'King Size, (40.5 sq-meter)room with city views', 'AC, Non Smoking Rooms, Free WiFi, TV, Bathroom', 15, 2, 1145094.00, '2024-06-12 11:02:28', '2024-06-12 11:02:28'),
-(2, 1, 'Merlynn Suite', 'https://hotel-images-soa.s3.amazonaws.com/merlyn_suite.jpeg', 'King Size, (60.75 sq-meter)room with city views  ', 'AC, Non Smoking Rooms, Free WiFi, TV, Bathroom', 10, 2, 1691983.00, '2024-06-12 11:02:28', '2024-06-12 11:02:28'),
-(3, 1, 'Empire Mansion', 'https://hotel-images-soa.s3.amazonaws.com/empire_mansion.jpeg', '(194.302 sq-meter)room with city views ', 'AC, Complimentary bottled water, Minibar, Refrigerator, Television, Desk, Bathroom', 5, 2, 12199515.00, '2024-06-12 11:02:28', '2024-06-12 11:02:28');
+(1, 1, 'Executive King', 'https://hotel-images-soa.s3.amazonaws.com/merlyn/exec_king.jpeg', 'King Size, (40.5 sq-meter)room with city views', 'AC, Non Smoking Rooms, Free WiFi, TV, Bathroom', 15, 2, 1145094.00, '2024-06-12 11:02:28', '2024-06-12 11:02:28'),
+(2, 1, 'Merlynn Suite', 'https://hotel-images-soa.s3.amazonaws.com/merlyn/merlyn_suite.jpeg', 'King Size, (60.75 sq-meter)room with city views  ', 'AC, Non Smoking Rooms, Free WiFi, TV, Bathroom', 10, 2, 1691983.00, '2024-06-12 11:02:28', '2024-06-12 11:02:28'),
+(3, 1, 'Empire Mansion', 'https://hotel-images-soa.s3.amazonaws.com/merlyn/empire_mansion.jpeg', '(194.302 sq-meter)room with city views ', 'AC, Complimentary bottled water, Minibar, Refrigerator, Television, Desk, Bathroom', 5, 2, 12199515.00, '2024-06-12 11:02:28', '2024-06-12 11:02:28');
 
 --
 -- Indexes for dumped tables
