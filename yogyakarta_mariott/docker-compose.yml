@@ -1,0 +1,58 @@
+# version: '3'
+
+services:
+  rabbit:
+    container_name: nameko-example-rabbitmq
+    image: rabbitmq:3.7-management
+    ports:
+      - "15673:15672" # Exposing RabbitMQ web management on different port for convenience
+    restart: always
+
+  mysql:
+    container_name: nameko-example-mysql
+    image: mysql:5.7
+    ports:
+      - "3311:3306" # Exposing MySQL on different port for convenience
+    environment:
+      MYSQL_DATABASE: "yogyakarta_mariott"
+      MYSQL_ROOT_PASSWORD: "password"
+    volumes:
+     - ./mysql-init:/docker-entrypoint-initdb.d
+    restart: always
+
+  yogyakarta_mariott:
+    build: ./yogyakarta_mariott
+    container_name: yogyakarta_mariott
+    depends_on:
+      - rabbit
+      - mysql
+    ports:
+      - "8010:8000"
+    links:
+      - "rabbit:nameko-example-rabbitmq"
+      - "mysql:nameko-example-mysql"
+    environment:
+      MYSQL_PASSWORD: "password"
+      MYSQL_HOST: "mysql"
+      MYSQL_DB: "yogyakarta_mariott"
+      RABBIT_HOST: "rabbit"
+      RABBIT_PORT: "5672"
+      RABBIT_USER: "guest"
+      RABBIT_PASSWORD: "guest"
+      RABBIT_MANAGEMENT_PORT: "15672"
+
+  gateway:
+    build: ./gateway
+    container_name: gateway5
+    depends_on:
+      - rabbit
+    ports:
+      - "8011:8000"
+    links:
+      - "rabbit:nameko-example-rabbitmq"
+    environment:
+      RABBIT_HOST: "rabbit"
+      RABBIT_PORT: "5672"
+      RABBIT_USER: "guest"
+      RABBIT_PASSWORD: "guest"
+      RABBIT_MANAGEMENT_PORT: "15672"
