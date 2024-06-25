@@ -20,7 +20,7 @@ services:
      - ./mysql-init:/docker-entrypoint-initdb.d
     restart: always
 
-  merlynn_park_hotel:
+  artotel_suites_bianti:
     build: ./artotel_suites_bianti
     container_name: artotel_suites_bianti
     depends_on:

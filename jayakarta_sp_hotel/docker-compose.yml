@@ -12,29 +12,29 @@ services:
     container_name: nameko-example-mysql
     image: mysql:5.7
     ports:
-      - "3309:3306" # Exposing MySQL on different port for convenience
+      - "3310:3306" # Exposing MySQL on different port for convenience
     environment:
-      MYSQL_DATABASE: "borobudur_hotel_jakarta"
+      MYSQL_DATABASE: "jayakarta_sp_hotel"
       MYSQL_ROOT_PASSWORD: "password"
     volumes:
      - ./mysql-init:/docker-entrypoint-initdb.d
     restart: always
 
-  borobudur_hotel_jakarta:
-    build: ./borobudur_hotel_jakarta
-    container_name: borobudur_hotel_jakarta
+  jayakarta_sp_hotel:
+    build: ./jayakarta_sp_hotel
+    container_name: jayakarta_sp_hotel
     depends_on:
       - rabbit
       - mysql
     ports:
-      - "8006:8000"
+      - "8008:8000"
     links:
       - "rabbit:nameko-example-rabbitmq"
       - "mysql:nameko-example-mysql"
     environment:
       MYSQL_PASSWORD: "password"
       MYSQL_HOST: "mysql"
-      MYSQL_DB: "borobudur_hotel_jakarta"
+      MYSQL_DB: "jayakarta_sp_hotel"
       RABBIT_HOST: "rabbit"
       RABBIT_PORT: "5672"
       RABBIT_USER: "guest"
@@ -43,11 +43,11 @@ services:
 
   gateway:
     build: ./gateway
-    container_name: gateway3
+    container_name: gateway4
     depends_on:
       - rabbit
     ports:
-      - "8007:8000"
+      - "8009:8000"
     links:
       - "rabbit:nameko-example-rabbitmq"
     environment:
