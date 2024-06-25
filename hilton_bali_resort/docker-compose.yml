@@ -2,7 +2,7 @@
 
 services:
   rabbit:
-    container_name: nameko-example-rabbitmq
+    container_name: nameko-example-rabbitmq-hilton
     image: rabbitmq:3.7-management
     ports:
       - "15673:15672" # Exposing RabbitMQ web management on different port for convenience
@@ -29,8 +29,8 @@ services:
     ports:
       - "8012:8000"
     links:
-      - "rabbit:nameko-example-rabbitmq"
-      - "mysql:nameko-example-mysql"
+      - "rabbit:nameko-example-rabbitmq-hilton"
+      - "mysql:nameko-example-mysql-hilton"
     environment:
       MYSQL_PASSWORD: "password"
       MYSQL_HOST: "mysql"
@@ -49,7 +49,7 @@ services:
     ports:
       - "8013:8000"
     links:
-      - "rabbit:nameko-example-rabbitmq"
+      - "rabbit:nameko-example-rabbitmq-hilton"
     environment:
       RABBIT_HOST: "rabbit"
       RABBIT_PORT: "5672"
