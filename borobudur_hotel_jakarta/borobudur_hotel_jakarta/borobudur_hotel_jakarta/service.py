@@ -3,7 +3,7 @@ from borobudur_hotel_jakarta import dependencies
 
 
 class HotelService:
-    name = 'merlynn_park_hotel'
+    name = 'borobudur_hotel_jakarta'
 
     database = dependencies.Database()
 
