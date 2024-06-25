@@ -1,0 +1,3 @@
+AMQP_URI: amqp://${RABBIT_USER:guest}:${RABBIT_PASSWORD:guest}@${RABBIT_HOST:localhost}:${RABBIT_PORT:5672}/
+
+MYSQL_URI: mysql://root:${MYSQL_PASSWORD}@mysql:${MYSQL_PORT:3306}/${MYSQL_DB:borobudur_hotel_jakarta}
