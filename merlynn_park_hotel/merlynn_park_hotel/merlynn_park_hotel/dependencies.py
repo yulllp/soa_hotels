@@ -205,8 +205,6 @@ class DatabaseWrapper:
     def add_reservation(self, booking_id, type_room, check_in_date, check_out_date, total_room):
         try:
             #find available room based on check in & out date and room type
-            check_in_date = check_in_date.strip('"')
-            check_out_date = check_out_date.strip('"')
             check_in_date_str = datetime.strptime(check_in_date, '%Y-%m-%d').strftime('%Y-%m-%d')
             check_out_date_str = datetime.strptime(check_out_date, '%Y-%m-%d').strftime('%Y-%m-%d')
             cursor = self.connection.cursor(dictionary=True)
@@ -252,8 +250,6 @@ class DatabaseWrapper:
     #get the quantity of available rooms for re-checking before booking
     def get_room_type_availability_count_by_id(self, check_in_date, check_out_date, type_room):
         try:
-            check_in_date = check_in_date.strip('"')
-            check_out_date = check_out_date.strip('"')
             check_in_date_str = datetime.strptime(check_in_date, '%Y-%m-%d').strftime('%Y-%m-%d')
             check_out_date_str = datetime.strptime(check_out_date, '%Y-%m-%d').strftime('%Y-%m-%d')
 

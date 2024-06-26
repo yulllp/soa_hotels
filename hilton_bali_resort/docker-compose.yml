@@ -17,6 +17,7 @@ services:
       MYSQL_DATABASE: "hilton_bali_resort"
       MYSQL_ROOT_PASSWORD: "password"
     volumes:
+     - mysql_data:/var/lib/mysql
      - ./mysql-init:/docker-entrypoint-initdb.d
     restart: always
 
@@ -56,3 +57,7 @@ services:
       RABBIT_USER: "guest"
       RABBIT_PASSWORD: "guest"
       RABBIT_MANAGEMENT_PORT: "15672"
+
+volumes:
+  mysql_data:
+    driver: local

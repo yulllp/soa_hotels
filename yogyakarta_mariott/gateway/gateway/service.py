@@ -60,7 +60,7 @@ class GatewayService:
         type_room = booking_data.get('type_id')
         total_room = booking_data.get('total_room')
         response = self.hotel_rpc.add_reservation(booking_id=booking_id, type_room=type_room, check_in_date=check_in_date, check_out_date=check_out_date, total_room=total_room)
-        return (self.header, json.dumps(response))
+        return (200, self.header, json.dumps(response))
     
     @http('GET', '/hotel/room_type/<string:check_in_date>&<string:check_out_date>&<int:type_room>')
     def get_room_type_availability_count_by_id(self, request, check_in_date, check_out_date, type_room):

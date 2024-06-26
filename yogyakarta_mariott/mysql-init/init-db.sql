@@ -58,26 +58,26 @@ M Club Lounge, Restaurant and Bar, Spa Services, 24-Hour Fitness Center, Busines
 -- Table structure for table `migrations`
 --
 
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) NOT NULL,
-  `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- CREATE TABLE `migrations` (
+--   `id` int(10) UNSIGNED NOT NULL,
+--   `migration` varchar(255) NOT NULL,
+--   `batch` int(11) NOT NULL
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
 --
 
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(10, '0001_01_01_000000_create_users_table', 1),
-(11, '0001_01_01_000001_create_cache_table', 1),
-(12, '0001_01_01_000002_create_jobs_table', 1),
-(13, '2024_06_02_074456_create_hotel_table', 1),
-(14, '2024_06_02_074514_create_room_type_table', 1),
-(15, '2024_06_02_074520_create_room_table', 1),
-(16, '2024_06_02_074535_create_reservation_table', 1),
-(17, '2024_06_02_085714_create_resv_room_table', 1),
-(18, '2024_06_02_091444_create_personal_access_tokens_table', 1);
+-- INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+-- (10, '0001_01_01_000000_create_users_table', 1),
+-- (11, '0001_01_01_000001_create_cache_table', 1),
+-- (12, '0001_01_01_000002_create_jobs_table', 1),
+-- (13, '2024_06_02_074456_create_hotel_table', 1),
+-- (14, '2024_06_02_074514_create_room_type_table', 1),
+-- (15, '2024_06_02_074520_create_room_table', 1),
+-- (16, '2024_06_02_074535_create_reservation_table', 1),
+-- (17, '2024_06_02_085714_create_resv_room_table', 1),
+-- (18, '2024_06_02_091444_create_personal_access_tokens_table', 1);
 
 -- --------------------------------------------------------
 
@@ -280,19 +280,19 @@ ALTER TABLE `hotel`
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `resv_room`
 --
 ALTER TABLE `resv_room`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `room_type`
