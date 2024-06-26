@@ -222,7 +222,7 @@ class DatabaseWrapper:
                 AND resv.check_out_date > %s
             )
             """
-            cursor.execute(sql, (type_room, check_out_date_str, check_in_date_str))
+            cursor.execute(sql, (type_room, check_in_date, check_out_date))
             for row in cursor.fetchall():
                  result.append(row)
             
