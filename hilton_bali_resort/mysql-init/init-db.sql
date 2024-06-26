@@ -228,8 +228,6 @@ ALTER TABLE `hotel`
 --
 -- Indexes for table `migrations`
 --
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
 
 
 --
