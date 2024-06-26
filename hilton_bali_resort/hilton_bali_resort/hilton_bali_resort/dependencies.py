@@ -205,8 +205,8 @@ class DatabaseWrapper:
     def add_reservation(self, booking_id, type_room, check_in_date, check_out_date, total_room):
         try:
             #find available room based on check in & out date and room type
-            check_in_date_str = datetime.strptime(check_in_date, '%Y-%m-%d').strftime('%Y-%m-%d')
-            check_out_date_str = datetime.strptime(check_out_date, '%Y-%m-%d').strftime('%Y-%m-%d')
+            # check_in_date_str = datetime.strptime(check_in_date, '%Y-%m-%d').strftime('%Y-%m-%d')
+            # check_out_date_str = datetime.strptime(check_out_date, '%Y-%m-%d').strftime('%Y-%m-%d')
             cursor = self.connection.cursor(dictionary=True)
             result = []
             sql = """
