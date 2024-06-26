@@ -1,0 +1,81 @@
+AWS
+1. EC2 (Instances):
+ - Yulius1 = hotel 1 -> merlynn park hotel -> 52.200.174.164:8003
+ - hotel2 = hotel 2 -> jayakarta sp hotel -> 44.218.207.165:8009
+ - Christopher1 = hotel 3 -> artotel suites bianti -> 50.16.176.111:8005
+ - hotel45 = hotel 4 & 5 -> Yogyakarta mariott & Hilton bali resort -> 3.215.46.161:8011 & 3.215.46.161:8013
+ - Timotius1 = hotel 6 -> Borobudur hotel Jakarta -> 100.28.104.239:8007
+
+2. S3 (Bucket):
+ - Bucket name: hotel-images-soa
+
+API
+${ip_address}/hotel "GET" -> dapat detail hotel
+${ip_address}/hotel/room_type "GET" -> dapat detail semua tipe room 
+${ip_address}/hotel/room_type/${int:id} "GET" -> dapat detail tipe room berdasarkan id
+${ip_address}/hotel/reservation "GET" -> dapat semua detail reservation
+${ip_address}/hotel/reservation/{int:id} "GET" -> dapat detail reservation berdasarkan id
+${ip_address}/hotel/reservation "POST" -> untuk booking, membuat reservation dan assign room sesuai tanggal check in & out
+${ip_address}/hotel/room_type/<string:check_in_date>&<string:check_out_date> "GET" -> untuk searching, dapat detail semua tipe room dan jumlah available roomnya
+${ip_address}/hotel/room_type/<string:check_in_date>&<string:check_out_date>&<int:type_room> "GET" -> untuk booking, untuk re-checking available room
+
+Searching
+/lokasi
+{
+    "code": 200,
+    "data": [
+        {
+            "id": 1,
+	    "nama": "Merlynn Park Hotel"
+            "id_lokasi": "Jakarta"
+	    "url": "52.200.174.164:8003"
+            "id_service_type": 1
+        },
+        {
+            "id": 2,
+	    "nama": "Jayakarta SP Hotel"
+            "id_lokasi": "Jakarta"
+	    "url": "44.218.207.165:8009"
+            "id_service_type": 1
+        },
+        {
+            "id": 3,
+	    "nama": "Artotel Suites Bianti"
+            "id_lokasi": "Yogyakarta"
+	    "url": "50.16.176.111:8005"
+            "id_service_type": 1
+        },
+	{
+            "id": 4,
+	    "nama": "Yogyakarta Mariott"
+            "id_lokasi": "Yogyakarta"
+	    "url": "3.215.46.161:8011"
+            "id_service_type": 1
+        },
+	{
+            "id": 5,
+	    "nama": "Hilton Bali Resort"
+            "id_lokasi": "Bali"
+	    "url": "3.215.46.161:8013"
+            "id_service_type": 1
+        },
+	{
+            "id": 6,
+	    "nama": "Borobudur hotel Jakarta"
+            "id_lokasi": "Jakarta"
+	    "url": "100.28.104.239:8007"
+            "id_service_type": 1
+        },
+    ]
+}
+
+Booking
+body:
+{
+    "booking_id": x,
+    "check_in_date": "yyyy-mm-dd",
+    "check_out_date": "yyyy-mm-dd",
+    "type_id": x,
+    "total_room": x
+}
+
