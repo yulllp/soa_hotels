@@ -145,7 +145,12 @@ class DatabaseWrapper:
             cursor = self.connection.cursor(dictionary=True)
             result = []
             reservations = {}
-            sql = "SELECT r.id, r.booking_id, r.check_in_date, r.check_out_date, rr.room_id, ro.number FROM reservation r JOIN resv_room rr ON r.id = rr.resv_id JOIN room ro ON rr.room_id = ro.id"
+            sql = """
+                SELECT r.id, r.booking_id, r.check_in_date, r.check_out_date, rr.room_id, ro.number 
+                FROM reservation r 
+                LEFT JOIN resv_room rr ON r.id = rr.resv_id 
+                LEFT JOIN room ro ON rr.room_id = ro.id
+            """
             cursor.execute(sql)
             for row in cursor.fetchall():
                 reservation_id = row['id']
@@ -176,7 +181,13 @@ class DatabaseWrapper:
         try:
             cursor = self.connection.cursor(dictionary=True)
             reservation = None
-            sql = "SELECT r.id, r.booking_id, r.check_in_date, r.check_out_date, rr.room_id, ro.number FROM reservation r JOIN resv_room rr ON r.id = rr.resv_id JOIN room ro ON rr.room_id = ro.id WHERE r.id = %s"
+            sql = """
+                SELECT r.id, r.booking_id, r.check_in_date, r.check_out_date, rr.room_id, ro.number 
+                FROM reservation r 
+                LEFT JOIN resv_room rr ON r.id = rr.resv_id 
+                LEFT JOIN room ro ON rr.room_id = ro.id 
+                WHERE r.id = %s
+            """
             cursor.execute(sql, (id,))
             for row in cursor.fetchall():
                 if reservation is None:
@@ -204,12 +215,68 @@ class DatabaseWrapper:
     #add new reservation
     def add_reservation(self, booking_id, type_room, check_in_date, check_out_date, total_room):
         try:
-            #find available room based on check in & out date and room type
-            check_in_date_str = datetime.strptime(check_in_date, '%Y-%m-%d').strftime('%Y-%m-%d')
-            check_out_date_str = datetime.strptime(check_out_date, '%Y-%m-%d').strftime('%Y-%m-%d')
             cursor = self.connection.cursor(dictionary=True)
-            result = []
-            sql = """
+
+            # Insert new reservation data including type_id
+            sql = "INSERT INTO reservation (booking_id, type_id, check_in_date, check_out_date) VALUES (%s, %s, %s, %s)"
+            cursor.execute(sql, (booking_id, type_room, check_in_date, check_out_date))
+            resv_id = cursor.lastrowid
+
+            # Assign NULL room_id
+            sql = "INSERT INTO resv_room (resv_id, room_id) VALUES (%s, NULL)"
+            for _ in range(total_room):
+                cursor.execute(sql, (resv_id,))
+
+            self.connection.commit()
+            cursor.close()
+            return {'message': 'Reservation created successfully', 'status': 200}
+
+        except Exception as e:
+            error_message = str(e)
+            return {'error': error_message, 'status': 500}
+
+    def check_in(self, resv_id):
+        try:
+            cursor = self.connection.cursor(dictionary=True)
+            sql_check_checkin = "SELECT check_in FROM reservation WHERE id = %s"
+            cursor.execute(sql_check_checkin, (resv_id,))
+            check_in_status = cursor.fetchone()
+
+            if check_in_status and check_in_status['check_in'] == 1:
+                return {'message': 'Reservation has already been checked in', 'status': 200}
+
+            # Query to count resv_room records for a given resv_id
+            sql_count = """
+            SELECT COUNT(*) AS total_resv_rooms
+            FROM resv_room
+            WHERE resv_id = %s
+            """
+            cursor.execute(sql_count, (resv_id,))
+            count = cursor.fetchone()
+
+            # Get the room type from the reservation
+            sql_type = """
+            SELECT rt.id as type_room
+            FROM reservation resv
+            JOIN room_type rt ON resv.type_id = rt.id
+            WHERE resv.id = %s
+            LIMIT 1
+            """
+            cursor.execute(sql_type, (resv_id,))
+            type_room_data = cursor.fetchone()
+
+            if not type_room_data:
+                return {'error': 'Reservation not found', 'status': 404}
+
+            type_room = type_room_data['type_room']
+
+            # Fetch reservation dates
+            sql_reservation_dates = "SELECT check_in_date, check_out_date FROM reservation WHERE id = %s"
+            cursor.execute(sql_reservation_dates, (resv_id,))
+            reservation_dates = cursor.fetchone()
+
+            # Find available rooms based on type_room and reservation dates
+            sql_rooms = """
             SELECT r.* 
             FROM room r
             JOIN room_type rt ON rt.id = r.type_id
@@ -218,101 +285,103 @@ class DatabaseWrapper:
                 SELECT rr.room_id
                 FROM resv_room rr
                 JOIN reservation resv ON rr.resv_id = resv.id
-                WHERE resv.check_in_date < %s
+                WHERE rr.room_id IS NOT NULL
+                AND resv.check_in_date < %s
                 AND resv.check_out_date > %s
             )
+            LIMIT %s
             """
-            cursor.execute(sql, (type_room, check_out_date_str, check_in_date_str))
-            for row in cursor.fetchall():
-                 result.append(row)
-            
-            #insert new reservation data
-            sql = "INSERT INTO reservation (booking_id, check_in_date, check_out_date) VALUES (%s, %s, %s)"
-            cursor.execute(sql, (booking_id, check_in_date, check_out_date))
-            id = cursor.lastrowid
+            cursor.execute(sql_rooms, (type_room, reservation_dates['check_out_date'], reservation_dates['check_in_date'], count['total_resv_rooms']))
+            available_room = cursor.fetchall()
 
-            #assign new room for the new reservation
-            sql = "INSERT INTO resv_room (resv_id, room_id) VALUES (%s, %s)"
-            for i, room in enumerate(result):
-                if i < total_room:
-                    print(room)
-                    cursor.execute(sql, (id, room['id']))
-                else:
-                    break
+            if not available_room:
+                return {'error': 'No available rooms of specified type', 'status': 404}
+
+            # Update resv_room with actual room_id
+            update_sql = "UPDATE resv_room SET room_id = %s WHERE resv_id = %s AND room_id IS NULL LIMIT 1"
+            for room in available_room:
+                cursor.execute(update_sql, (room['id'], resv_id))
+
+            update_check_in_sql = "UPDATE reservation SET check_in = 1 WHERE id = %s"
+            cursor.execute(update_check_in_sql, (resv_id,))
+
             self.connection.commit()
             cursor.close()
-            return {'message': 'reservation created successfully','status': 200}
-        
+            return {'message': 'Check-in successful', 'status': 200}
+
         except Exception as e:
             error_message = str(e)
             return {'error': error_message, 'status': 500}
-    
+
+        
+
     #get the quantity of available rooms for re-checking before booking
     def get_room_type_availability_count_by_id(self, check_in_date, check_out_date, type_room):
         try:
             check_in_date_str = datetime.strptime(check_in_date, '%Y-%m-%d').strftime('%Y-%m-%d')
             check_out_date_str = datetime.strptime(check_out_date, '%Y-%m-%d').strftime('%Y-%m-%d')
-
-            #find available room based on check in & out date and room type
             cursor = self.connection.cursor(dictionary=True)
-            result = []
-            count = 0
-            sql = """
-                SELECT r.* 
-                FROM room r
-                JOIN room_type rt ON rt.id = r.type_id
-                WHERE rt.id = %s
-                AND r.id NOT IN (
-                    SELECT rr.room_id
-                    FROM resv_room rr
-                    JOIN reservation resv ON rr.resv_id = resv.id
-                    WHERE resv.check_in_date < %s
-                    AND resv.check_out_date > %s
-                )
-                """
-            cursor.execute(sql, (type_room, check_out_date_str, check_in_date_str))
-            for row in cursor.fetchall():
-                    result.append(row)
-            for i in result:
-                count += 1
-            
-            self.connection.commit()
+            # Find available rooms and consider dummy entries
+            sql =  """
+            SELECT COUNT(*) as available_count 
+            FROM room r
+            JOIN room_type rt ON rt.id = r.type_id
+            WHERE rt.id = %s
+            AND r.id NOT IN (
+                SELECT rr.room_id
+                FROM resv_room rr
+                JOIN reservation resv ON rr.resv_id = resv.id
+                WHERE rr.room_id IS NOT NULL
+                AND resv.check_in_date < %s
+                AND resv.check_out_date > %s
+            )
+            """
+            cursor.execute(sql, (type_room, check_out_date_str, check_in_date_str), )
+            available_count = cursor.fetchone()['available_count']
+            print(available_count)
+
+            # Subtract dummy entries
+            sql_dummy ="""
+            SELECT COUNT(*) as dummy_count 
+            FROM resv_room rr
+            JOIN reservation resv ON rr.resv_id = resv.id
+            WHERE rr.room_id IS NULL
+            AND resv.check_in_date < %s
+            AND resv.check_out_date > %s
+            AND resv.type_id = %s
+            """
+            cursor.execute(sql_dummy, (check_out_date_str, check_in_date_str, type_room))
+            dummy_count = cursor.fetchone()['dummy_count']
+            print(dummy_count)
+
+            total_available = available_count - dummy_count
+
             cursor.close()
-            return count
+            return total_available
         except Exception as e:
             error_message = str(e)
             return {'error': error_message, 'status': 500}
+
     
     #for searching service
     #get all room type data with the total available rooms
     def get_room_type_availability(self, check_in_date, check_out_date):
         try:
-            check_in_date = check_in_date.strip('"')
-            check_out_date = check_out_date.strip('"')
-            check_in_date_str = datetime.strptime(check_in_date, '%Y-%m-%d').strftime('%Y-%m-%d')
-            check_out_date_str = datetime.strptime(check_out_date, '%Y-%m-%d').strftime('%Y-%m-%d')
             cursor = self.connection.cursor(dictionary=True)
-            print(check_in_date, check_out_date)
-            result = []
-            data = self.get_room_types()
-            for row in data:
-                count = 0
-                #find available room based on check in & out date and room type
-                sql = "SELECT r.* FROM room r JOIN room_type rt ON rt.id = r.type_id WHERE rt.id = %s AND r.id NOT IN ( SELECT rr.room_id FROM resv_room rr JOIN reservation resv ON rr.resv_id = resv.id WHERE resv.check_in_date < %s AND resv.check_out_date > %s )"
-                cursor.execute(sql, (row['id'], check_out_date_str, check_in_date_str))
-                rows = cursor.fetchall()
-                print(rows)
-                #count each room_types availability
-                count = len(rows)
-                result.append(count)
-
-            #combine the data with the total available room
-            for index, room in enumerate(data):
-                room['available_room'] = result[index]
+            
+            # Fetch room types data
+            room_types = self.get_room_types()
+            for room_type in room_types:
+                # Calculate available count using existing method
+                available_count = self.get_room_type_availability_count_by_id(check_in_date, check_out_date, room_type['id'])
+                
+                # Append availability count to each room type
+                room_type['available_room'] = available_count
             
             self.connection.commit()
             cursor.close()
-            return self.convert_dates_to_strings(data)
+            return self.convert_dates_to_strings(room_types)
+        
         except Exception as e:
             error_message = str(e)
             return {'error': error_message, 'status': 500}
@@ -326,6 +395,10 @@ class DatabaseWrapper:
             for item in data:
                 self.convert_dates_to_strings(item)
         return data
+    
+    def __del__(self):
+        self.connection.close()
+
 class Database(DependencyProvider):
 
     connection_pool = None

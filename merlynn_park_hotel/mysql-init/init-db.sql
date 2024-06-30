@@ -61,6 +61,7 @@ CREATE TABLE `reservation` (
   `booking_id` int(11) NOT NULL,
   `check_in_date` date NOT NULL,
   `check_out_date` date NOT NULL,
+  `check_in` int(11) NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -94,7 +95,7 @@ CREATE TABLE `resv_room` (
 --
 
 CREATE TABLE `room` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NULL,
   `type_id` bigint(20) UNSIGNED NOT NULL,
   `number` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -189,7 +190,8 @@ ALTER TABLE `reservation`
 ALTER TABLE `resv_room`
   ADD PRIMARY KEY (`id`),
   ADD KEY `resv_room_room_id_foreign` (`room_id`),
-  ADD KEY `resv_room_resv_id_foreign` (`resv_id`);
+  ADD KEY `resv_room_resv_id_foreign` (`resv_id`),
+  MODIFY `room_id` BIGINT(20) UNSIGNED NULL;
 
 --
 -- Indexes for table `room`
@@ -219,13 +221,13 @@ ALTER TABLE `hotel`
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `resv_room`
 --
 ALTER TABLE `resv_room`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `room`
@@ -249,6 +251,13 @@ ALTER TABLE `room_type`
 ALTER TABLE `resv_room`
   ADD CONSTRAINT `resv_room_resv_id_foreign` FOREIGN KEY (`resv_id`) REFERENCES `reservation` (`id`),
   ADD CONSTRAINT `resv_room_room_id_foreign` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`);
+
+--
+-- Constraints for table `reservation`
+--
+ALTER TABLE `reservation`
+  ADD COLUMN `type_id` BIGINT(20) UNSIGNED NOT NULL AFTER `booking_id`,
+  ADD CONSTRAINT `reservation_type_id_foreign` FOREIGN KEY (`type_id`) REFERENCES `room_type` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `room`

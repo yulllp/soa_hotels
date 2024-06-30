@@ -46,7 +46,7 @@ class GatewayService:
     
     @http('GET', '/hotel/reservation/<int:id>')
     def get_reservations_by_id(self, request, id):
-        response = self.hotel_rpc.get_reservations_by_id(id=id)
+        response = self.hotel_rpc.get_reservation_by_id(id=id)
         return (200, self.header, json.dumps(response))
     
     #booking service
@@ -60,6 +60,11 @@ class GatewayService:
         type_room = booking_data.get('type_id')
         total_room = booking_data.get('total_room')
         response = self.hotel_rpc.add_reservation(booking_id=booking_id, type_room=type_room, check_in_date=check_in_date, check_out_date=check_out_date, total_room=total_room)
+        return (200, self.header, json.dumps(response))
+    
+    @http('PUT', '/hotel/reservation/<int:resv_id>/checkin')
+    def check_in(self, request, resv_id):
+        response = self.hotel_rpc.check_in(resv_id=resv_id)
         return (200, self.header, json.dumps(response))
     
     @http('GET', '/hotel/room_type/<string:check_in_date>&<string:check_out_date>&<int:type_room>')

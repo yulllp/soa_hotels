@@ -53,6 +53,11 @@ class HotelService:
         return response
     
     @rpc
+    def check_in(self, resv_id):
+        response = self.database.check_in(resv_id=resv_id)
+        return response
+    
+    @rpc
     def get_room_type_availability_count_by_id(self, check_in_date, check_out_date, type_room):
         response = self.database.get_room_type_availability_count_by_id(check_in_date=check_in_date, check_out_date=check_out_date, type_room=type_room)
         return response

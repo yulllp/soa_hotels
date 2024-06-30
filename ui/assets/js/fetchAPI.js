@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     async function fetchHotelData() {
         try {
-            const response = await fetch('http://3.215.46.161:8013/hotel', {
+            const response = await fetch('http://52.200.174.164:8003/hotel', {
                 method: "GET"
             }); // Adjust the URL as necessary
             if (!response.ok) {
@@ -50,7 +50,7 @@ function getRoomType() {
 
         async fetchRoomType() {
             try {
-                const response = await fetch('http://3.215.46.161:8013/hotel/room_type', {
+                const response = await fetch('http://52.200.174.164:8003/hotel/room_type', {
                     method: "GET"
                 }); // Adjust the URL as necessary
                 if (!response.ok) {
