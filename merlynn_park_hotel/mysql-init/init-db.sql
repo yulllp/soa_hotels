@@ -59,7 +59,6 @@ INSERT INTO `hotel` (`id`, `name`, `image`, `description`, `star`, `address`, `f
 CREATE TABLE `reservation` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `booking_id` int(11) NOT NULL,
-  `type_id` bigint(20) UNSIGNED NOT NULL,
   `check_in_date` date NOT NULL,
   `check_out_date` date NOT NULL,
   `check_in` int(11) NULL DEFAULT 0,
@@ -257,6 +256,7 @@ ALTER TABLE `resv_room`
 -- Constraints for table `reservation`
 --
 ALTER TABLE `reservation`
+  ADD COLUMN `type_id` BIGINT(20) UNSIGNED NOT NULL AFTER `booking_id`,
   ADD CONSTRAINT `reservation_type_id_foreign` FOREIGN KEY (`type_id`) REFERENCES `room_type` (`id`) ON DELETE CASCADE;
 
 --
